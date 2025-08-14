@@ -21,7 +21,6 @@ const App = () => {
     const day = selectedDate.getDate();
     mdt.SetDateTime(year, month, day);
     setBurmeseData(mdt);
-    console.log("Burmese Date Data:", mdt);
   };
   useEffect(() => {
     convertToBurmeseDate(selectedDate);
