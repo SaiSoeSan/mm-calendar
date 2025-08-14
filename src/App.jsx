@@ -122,7 +122,7 @@ const App = () => {
 
                 <div className="bg-white/80 rounded-lg p-3 border border-orange-200">
                   <div className="flex justify-between">
-                    <span className="text-gray-700">Sasana Year Year:</span>
+                    <span className="text-gray-700">Myanmar Year:</span>
                     <span className="font-semibold text-orange-700">
                       {burmeseData ? burmeseData.my : "---"}
                     </span>
@@ -155,6 +155,22 @@ const App = () => {
                     </span>
                   </div>
                 </div>
+
+                {/* Special Day - Only show if holidays array has items and first item is not "Holiday" */}
+                {burmeseData &&
+                  burmeseData.holidays &&
+                  burmeseData.holidays.length > 0 &&
+                  burmeseData.holidays[0] !== "Holiday" && (
+                    <div className="bg-gradient-to-br from-emerald-100 to-green-100 rounded-lg p-3 border border-emerald-200">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-700">Special Day:</span>
+                        <span className="font-semibold text-emerald-700 flex items-center gap-1">
+                          <span className="text-sm">⭐</span>
+                          {burmeseData.holidays[0]}
+                        </span>
+                      </div>
+                    </div>
+                  )}
               </div>
 
               {/* Astrological Information */}
@@ -201,7 +217,7 @@ const App = () => {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg p-3 border border-green-200">
+                <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg p-3 border border-purple-200">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-700">Pyathada:</span>
                     <span
@@ -221,7 +237,7 @@ const App = () => {
                 </div>
 
                 {/* Nagahle Head */}
-                <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg p-3 border border-purple-200">
+                <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg p-3 border border-blue-200">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-700">Nagahle Head:</span>
                     <span className={"font-semibold text-orange-700"}>
@@ -234,7 +250,7 @@ const App = () => {
                   </div>
                 </div>
                 {/* Mahabote */}
-                <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg p-3 border border-blue-200">
+                <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg p-3 border border-purple-200">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-700">Mahabote:</span>
                     <span className={"font-semibold text-orange-700"}>
@@ -247,7 +263,7 @@ const App = () => {
                   </div>
                 </div>
                 {/* Nakhat */}
-                <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg p-3 border border-green-200">
+                <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg p-3 border border-blue-200">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-700">Nakhat:</span>
                     <span className={"font-semibold text-orange-700"}>
@@ -259,6 +275,76 @@ const App = () => {
                     </span>
                   </div>
                 </div>
+                <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg p-3 border border-purple-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Holiday:</span>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        burmeseData &&
+                        burmeseData.holidays.length > 0 &&
+                        burmeseData.holidays[0] === "Holiday"
+                          ? "bg-green-200 text-green-800"
+                          : "bg-red-200 text-red-800"
+                      }`}
+                    >
+                      {burmeseData
+                        ? burmeseData.holidays.length > 0 &&
+                          burmeseData.holidays[0] === "Holiday"
+                          ? "🎉 Yes"
+                          : "No"
+                        : "---"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Traditional Festival - Only show if holidays2 array has items */}
+                {burmeseData &&
+                  burmeseData.holidays2 &&
+                  burmeseData.holidays2.length > 0 && (
+                    <div className="bg-gradient-to-br from-rose-100 to-pink-100 rounded-lg p-4 border border-rose-200">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-gray-700 flex items-center gap-2 font-medium">
+                          Special Event:
+                        </span>
+                        <span className="px-2 py-1 rounded-full text-xs font-semibold bg-rose-200 text-rose-800">
+                          {burmeseData.holidays2.length} Event
+                          {burmeseData.holidays2.length > 1 ? "s" : ""}
+                        </span>
+                      </div>
+
+                      {/* Multi-select style design for festivals */}
+                      {burmeseData.holidays2.length === 1 ? (
+                        // Single festival - simple display
+                        <div className="flex items-center gap-2 bg-white/80 rounded-lg p-2 border border-rose-300">
+                          <span className="text-rose-600 text-sm">🎊</span>
+                          <span className="text-rose-800 font-medium">
+                            {burmeseData.holidays2[0]}
+                          </span>
+                        </div>
+                      ) : (
+                        // Multiple festivals - chip/tag style
+                        <div className="space-y-2">
+                          <div className="flex flex-wrap gap-2">
+                            {burmeseData.holidays2.map((festival, index) => (
+                              <div
+                                key={index}
+                                className="inline-flex items-center gap-1 bg-rose-200 hover:bg-rose-300 transition-colors rounded-full px-3 py-1 text-sm font-medium text-rose-800 border border-rose-300"
+                              >
+                                <span className="text-xs">🎊</span>
+                                <span>{festival}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Optional: Summary text for multiple festivals */}
+                          <div className="text-xs text-rose-600 bg-rose-50 rounded-md p-2 border border-rose-200">
+                            <span className="font-medium">Celebrating:</span>{" "}
+                            Multiple traditional festivals today
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
             </div>
 
