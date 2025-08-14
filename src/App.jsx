@@ -9,9 +9,8 @@ const App = () => {
 
   const convertToBurmeseDate = (selectedDate) => {
     if (typeof ceMmDateTime === "undefined") {
-      throw new Error(
-        "ceMmDateTime class not found. Please include mmcal library."
-      );
+      setBurmeseData(null);
+      return;
     }
     // eslint-disable-next-line no-undef
     const mdt = new ceMmDateTime();
