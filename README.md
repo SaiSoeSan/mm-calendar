@@ -13,7 +13,7 @@ This project utilizes the powerful **mmcal** library by [@yan9a](https://github.
 
 ## Screenshot
 
-[English To Burmese Calendar](/public/screenshots/screenshots/cal.png)
+![English To Burmese Calendar](/public/screenshots/cal.png)
 
 ## �🚀 Getting Started
 
