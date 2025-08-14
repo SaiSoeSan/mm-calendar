@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import "./App.css";
 import { ceMmDateTime } from "./assets/ceMmDateTime.js"; // Ensure this path is correct
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const App = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -277,6 +278,7 @@ const App = () => {
         </div>
       </div>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 };
