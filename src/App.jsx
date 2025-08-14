@@ -301,7 +301,7 @@ const App = () => {
                 {burmeseData &&
                   burmeseData.holidays2 &&
                   burmeseData.holidays2.length > 0 && (
-                    <div className="bg-gradient-to-br from-rose-100 to-pink-100 rounded-lg p-4 border border-rose-200">
+                    <div className="bg-gradient-to-br from-green-100 to-indigo-100 rounded-lg p-4 border border-rose-200">
                       <div className="flex justify-between items-center mb-3">
                         <span className="text-gray-700 flex items-center gap-2 font-medium">
                           Special Event:
