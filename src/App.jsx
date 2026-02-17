@@ -1,21 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./App.css";
-import { ceMmDateTime } from "./assets/ceMmDateTime.js"; // Ensure this path is correct
+import { ceMmDateTime, ceMmTranslate } from "./assets/ceMmDateTime.js"; // Ensure this path is correct
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+
+// Localization config - Language indices: 0=English, 1=Myanmar (Unicode), 2=Zawgyi, 3=Mon, 4=Shan, 5=Karen
+const LOCALE_CONFIG = {
+  language: 1, // 1 = Myanmar (Unicode)
+};
 
 const App = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [burmeseData, setBurmeseData] = useState(null);
+
+  // Initialize translator
+  const translator = useMemo(() => new ceMmTranslate(), []);
+
+  // Localization helper function
+  const localize = (text) => {
+    if (!text || LOCALE_CONFIG.language === 0) return text;
+    return translator.T(String(text), LOCALE_CONFIG.language, 0);
+  };
 
   const convertToBurmeseDate = (selectedDate) => {
     if (typeof ceMmDateTime === "undefined") {
       setBurmeseData(null);
       return;
     }
-    // eslint-disable-next-line no-undef
     const mdt = new ceMmDateTime();
     //get year, month, day from selectedDate
     const year = selectedDate.getFullYear();
@@ -70,16 +83,16 @@ const App = () => {
               <h3 className="text-lg font-medium mb-2">Myanmar Date</h3>
               <p className="text-xl font-bold">
                 {burmeseData
-                  ? burmeseData.ToMString() +
+                  ? localize(burmeseData.ToMString()) +
                     " " +
                     ["🌑", "🌓", "🌕", "🌗"][
                       burmeseData.ToMString("&P") == "Waning"
                         ? 3 // လ ပြည့်ကျော်
                         : burmeseData.ToMString("&P") == "Waxing"
-                        ? 1 // လဆန်း
-                        : burmeseData.ToMString("&P") == "New Moon"
-                        ? 0 // လ ကွယ်
-                        : 2 // လ ပြည့်
+                          ? 1 // လဆန်း
+                          : burmeseData.ToMString("&P") == "New Moon"
+                            ? 0 // လ ကွယ်
+                            : 2 // လ ပြည့်
                     ]
                   : "Loading..."}
               </p>
@@ -115,7 +128,7 @@ const App = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Sasana Year:</span>
                     <span className="font-semibold text-orange-700">
-                      {burmeseData ? burmeseData.sy : "---"}
+                      {burmeseData ? localize(burmeseData.sy) : "---"}
                     </span>
                   </div>
                 </div>
@@ -124,7 +137,7 @@ const App = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Myanmar Year:</span>
                     <span className="font-semibold text-orange-700">
-                      {burmeseData ? burmeseData.my : "---"}
+                      {burmeseData ? localize(burmeseData.my) : "---"}
                     </span>
                   </div>
                 </div>
@@ -133,7 +146,9 @@ const App = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Month:</span>
                     <span className="font-semibold text-orange-700">
-                      {burmeseData ? burmeseData.ToMString("&M") : "---"}
+                      {burmeseData
+                        ? localize(burmeseData.ToMString("&M"))
+                        : "---"}
                     </span>
                   </div>
                 </div>
@@ -142,7 +157,7 @@ const App = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Day:</span>
                     <span className="font-semibold text-orange-700">
-                      {burmeseData ? burmeseData.mf : "---"}
+                      {burmeseData ? localize(burmeseData.mf) : "---"}
                     </span>
                   </div>
                 </div>
@@ -151,7 +166,9 @@ const App = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Weekday:</span>
                     <span className="font-semibold text-orange-700">
-                      {burmeseData ? burmeseData.ToString("%W") : "---"}
+                      {burmeseData
+                        ? localize(burmeseData.ToString("%W"))
+                        : "---"}
                     </span>
                   </div>
                 </div>
@@ -166,7 +183,7 @@ const App = () => {
                         <span className="text-gray-700">Special Day:</span>
                         <span className="font-semibold text-emerald-700 flex items-center gap-1">
                           <span className="text-sm">⭐</span>
-                          {burmeseData.holidays[0]}
+                          {localize(burmeseData.holidays[0])}
                         </span>
                       </div>
                     </div>
@@ -192,7 +209,7 @@ const App = () => {
                       {burmeseData
                         ? burmeseData.sabbath === ""
                           ? "No"
-                          : burmeseData.sabbath
+                          : localize(burmeseData.sabbath)
                         : "---"}
                     </span>
                   </div>
@@ -244,7 +261,7 @@ const App = () => {
                       {burmeseData
                         ? burmeseData.nagahle === ""
                           ? ""
-                          : burmeseData.nagahle + " Facing"
+                          : localize(burmeseData.nagahle + " Facing")
                         : "---"}
                     </span>
                   </div>
@@ -257,7 +274,7 @@ const App = () => {
                       {burmeseData
                         ? burmeseData.mahabote === ""
                           ? ""
-                          : burmeseData.mahabote + " Born"
+                          : localize(burmeseData.mahabote + " Born")
                         : "---"}
                     </span>
                   </div>
@@ -270,7 +287,7 @@ const App = () => {
                       {burmeseData
                         ? burmeseData.nakhat === ""
                           ? ""
-                          : burmeseData.nakhat + " Nakhat"
+                          : localize(burmeseData.nakhat + " Nakhat")
                         : "---"}
                     </span>
                   </div>
@@ -318,7 +335,7 @@ const App = () => {
                         <div className="flex items-center gap-2 bg-white/80 rounded-lg p-2 border border-rose-300">
                           <span className="text-rose-600 text-sm">🎊</span>
                           <span className="text-rose-800 font-medium">
-                            {burmeseData.holidays2[0]}
+                            {localize(burmeseData.holidays2[0])}
                           </span>
                         </div>
                       ) : (
@@ -331,7 +348,7 @@ const App = () => {
                                 className="inline-flex items-center gap-1 bg-rose-200 hover:bg-rose-300 transition-colors rounded-full px-3 py-1 text-sm font-medium text-rose-800 border border-rose-300"
                               >
                                 <span className="text-xs">🎊</span>
-                                <span>{festival}</span>
+                                <span>{localize(festival)}</span>
                               </div>
                             ))}
                           </div>

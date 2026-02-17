@@ -171,7 +171,7 @@ class ceDateTime {
     fs = "%Www %y-%mm-%dd %HH:%nn:%ss %zz",
     tz = 0,
     ct = 0,
-    SG = 2361222
+    SG = 2361222,
   ) {
     jd += tz / 24.0;
     var dt = ceDateTime.j2w(jd, ct, SG);
@@ -429,7 +429,7 @@ class ceDateTime {
   //-------------------------------------------------------------------------
   // set time zone in hours for this instance
   SetTimezone(
-    tz //set time zone
+    tz, //set time zone
   ) {
     if (tz == undefined) {
       this.m_tz = ceDateTime.ltzoh();
@@ -464,7 +464,7 @@ class ceDateTime {
     second = 0,
     tz = 0,
     ct = 0,
-    SG = 2361222
+    SG = 2361222,
   ) {
     this.m_jd =
       ceDateTime.w2j(year, month, day, hour, minute, second, ct, SG) -
@@ -1325,7 +1325,8 @@ class ceMmDateTime extends ceDateTime {
       SE3 = 1312; //start of Thingyan and third era
     var akn, atn, ja, jk;
     ja = SY * (my + mmt) + MO; // atat time
-    if (my >= SE3) jk = ja - 2.169918982; // akya time
+    if (my >= SE3)
+      jk = ja - 2.169918982; // akya time
     else jk = ja - 2.1675;
     akn = Math.round(jk);
     atn = Math.round(ja);
@@ -6506,4 +6507,4 @@ class ceMmChronicle {
 } //ceMmChronicle
 //-----------------------------------------------------------------------
 
-export { ceMmDateTime };
+export { ceMmDateTime, ceMmTranslate };
